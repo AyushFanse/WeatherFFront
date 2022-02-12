@@ -33,7 +33,7 @@ const handleSubmit = async (e) => {
 e.preventDefault();
 
 try{        
-        await axios.post(`${url}register/registerUser`, {
+        await axios.post(`${url}register/registeruser`, {
                 first_name:first_name.value,
                 last_name:last_name.value,
                 email:email.value,
