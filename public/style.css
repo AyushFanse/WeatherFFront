@@ -51,6 +51,10 @@ input[type="search1"],[type="button1"]{
 #button{
     background: rgb(15, 20, 26);
 }
+#buttonOff{
+    background: rgb(72, 86, 104);
+    color:rgb(185, 183, 183);
+}
 .form{
     display:flex;
     justify-content: space-between;
@@ -90,6 +94,35 @@ input[type="search1"],[type="button1"]{
     color:rgb(182, 184, 185);
     overflow:hidden;
 }
+@media (min-width: 768px){
+    .container{
+        height:100vh;
+    }
+}
+@media (max-width: 768px){
+    .container{
+        height:40vh;
+    }
+}
+.container{
+    display:grid;
+    place-items: center;
+}
+
+@media (min-width: 768px){
+    .containerSign{
+        height:93vh;
+    }
+}
+@media (max-width: 768px){
+    .containerSign{
+        height:40vh;
+    }
+}
+.containerSign{
+    display:grid;
+    place-items: center;
+}
 .cardContaint{
     margin-top: 50px;
     display:flex;
@@ -112,31 +145,37 @@ input[type="search1"],[type="button1"]{
     box-shadow: 4px 8px 10px rgb(15, 22, 29);
     transition:0.2s;
 }
+#standard{
+    color: #fff;    
+}
 #Logincard{
-    width:auto;
+    width:330px;
     padding:40px;
     height: auto;
     display: flex;
     justify-content: center;
-    border-radius: 30px;
+    border-radius: 10px;
     background: rgb(64, 84, 107);
     box-shadow: 4px 8px 10px rgb(15, 22, 29);
     transition:0.2s;
 }
 #signInCard{
-    width:auto;
+    width:380px;
     padding:40px;
     height: auto;
     display: flex;
     justify-content: center;
-    border-radius: 30px;
+    border-radius: 10px;
     background: rgb(64, 84, 107);
     box-shadow: 4px 8px 10px rgb(15, 22, 29);
     transition:0.2s;
 }
-
+#switchLogin{
+    color:rgb(0, 0, 0);
+    cursor:default;
+}
 #profileCard{
-    border-radius: 30px;
+    border-radius: 10px;
 }
 #card:hover{
     margin-top: -6px;
@@ -186,6 +225,12 @@ input[type="search1"],[type="button1"]{
 }
 #time{
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#error{
+    color: rgb(255, 74, 74);
+    font-weight: 400;
+    font-size: 0.8rem;
+    font-family: 'Montserrat' ;
 }
 .selectedFont{
     text-align:center;

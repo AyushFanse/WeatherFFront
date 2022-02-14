@@ -11,6 +11,7 @@ const LoginComponent = (props) => {
 const [email, setEmail] = useState('');
 const [password,setPassword] = useState('');
 const [showPassword,setShowPassword] = useState('');
+const [error,setError] = useState(false);
 const url = 'https://weather-forecasting-back.herokuapp.com/';
 
 //-------------------------------* PASSWORD VISIBILITY *-------------------------------//
@@ -40,9 +41,29 @@ e.preventDefault();
         console.warn(err);
     }
 }
+//---------* Set Email *----------//
+const SetEmail = ((value)=>{
+    setEmail(value)
+    setError(false)
+})
+
+//---------* Set Password *----------//
+const SetPassword = ((value)=>{
+    setPassword(value)
+    setError(false)
+})
+
+//---------* Error *----------//
+const ErrorDetect= (()=>{
+    if(email==='' || password==='') {
+        setError(true)
+    } else {
+        setError(false)
+    }
+})
 
 return (
-    <Box id="container" sx={{display: 'flex', justifyContent: 'center', alignItems:'center', height:'100vh'}}>
+    <Box className="container">
         <Grid id="Logincard">
             <Grid id="content">
                 <h2 style={{textAlign: 'center'}} id="heading" >Login</h2>
@@ -51,10 +72,10 @@ return (
                     <Grid>
                         <FormControl sx={{ ml: 1, mr: 1, width: '25ch'}}>
                             <TextField
-                                id="input-with-icon-textfield"
+                                id="standard"
                                 label="Email"
                                 value={props.email}
-                                onChange={(e) => {setEmail(e.currentTarget)}}
+                                onChange={(e) => {SetEmail(e.currentTarget)}}
                                 InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="start">
@@ -68,13 +89,14 @@ return (
                     </Grid>
                     <br/>
                     <Grid>
-                        <FormControl sx={{ ml: 1, mr: 1, width: '25ch' }} variant="standard">
+                        <FormControl className="standard" sx={{ ml: 1, mr: 1, width: '25ch' }} variant="standard">
                             <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                             <Input
                                 id="standard-adornment-password"
+                                style={{color: 'white'}}
                                 type={showPassword? 'text' : 'password'}
                                 value={props.password}
-                                onChange={(e) => {setPassword(e.currentTarget)}}
+                                onChange={(e) => {SetPassword(e.currentTarget)}}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -89,11 +111,28 @@ return (
                             />
                         </FormControl>
                     </Grid>
+                    {   
+                            error
+                        ?
+                            <Grid sx={{textAlign: 'center', margin: '10px 0 0 0'}}>
+                                <p id='error'>Fill all the data</p>
+                            </Grid>
+                        :
+                        null
+                    }
                     <Grid sx={{textAlign: 'center', margin: '20px 0'}}>
-                        <Button id="button" type="submit" variant="contained" disableElevation >
-                            Submit
-                        </Button>
-                    </Grid>
+                        {
+                                email==='' || password===''
+                            ?
+                                <Button id="buttonOff" variant="contained" onClick={()=>{ErrorDetect()}} >
+                                    Submit
+                                </Button>
+                            :
+                                <Button id="button" type="submit" variant="contained" disableElevation onClick={()=>{ErrorDetect()}}>
+                                    Submit
+                                </Button>
+                        }
+                        </Grid>
                     <Grid sx={{textAlign: 'center'}}>
                         <p id = "switchLogin">Don&apos;t have account ? <span id="switch" onClick={() =>{props.history.push('/signup')}} variant="body2">Sign-Up</span></p>
                     </Grid>

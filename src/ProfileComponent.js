@@ -144,7 +144,7 @@ return (
                 )}
             </Toolbar>
             <h1 className="ProfileTitle">My Profile</h1>
-        <Grid container  sx={{'& .MuiTextField-root':{ m:'4'},display: 'flex', justifyContent: 'center'}}>
+        <Grid sx={{display: 'grid', placeItems: 'center', height:'60vh'}}>
             {userData.map((user)=>(
                 <Box key={user._id}>
                     <div  id="profileCard" style={{ background:'#c8e4fb',marginTop: '50px',  width:'360px', padding:'30px'}}>
