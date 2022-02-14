@@ -35,6 +35,7 @@ e.preventDefault();
 console.log(first_name.value);
 
 try{        
+<<<<<<< HEAD
     await axios.post(`${url}register/registeruser`, {
             first_name:first_name.value,
             last_name:last_name.value,
@@ -51,6 +52,24 @@ try{
             alert(err.response.data.msg);
         }
         console.warn(err);
+=======
+        await axios.post(`${url}register/registeruser`, {
+                first_name:first_name.value,
+                last_name:last_name.value,
+                email:email.value,
+                number:number.value,
+                password:password.value
+            })
+            alert('You Have Successfully Registered Your Account..!');
+            props.history.push('/');   
+        }catch(err) {
+            if(err.response.data.msg === undefined){
+                alert('Fill all the details');
+            }else{
+                alert(err.response.data.msg);
+            }
+            console.warn(err);
+>>>>>>> 247626c6b415be1b51142372c76c97b29bff038c
 }   }
 
 return (
