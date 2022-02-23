@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import {IconButton,Button,Grid,TextField,FormControl,Card,Input,AppBar,InputLabel,Toolbar,Typography,InputAdornment,Box} from '@mui/material';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Visibility from '@mui/icons-material/Visibility';
@@ -14,8 +16,10 @@ const [password,setPassword] = useState('');
 const [showPassword,setShowPassword] = useState('');
 const [first_name,setFirstName] = useState('');
 const [last_name,setLastName] = useState('');
+const [Worning,setWorning] = useState('');
 const [number,setNumber] = useState('');
-const url = 'https://weather-forecasting-back.herokuapp.com/';
+const url = 'https://weather-forecasting-back.herokuapp.com';
+
 
 //-------------------------------* PASSWORD VISIBILITY FUNCTIONS *-------------------------------//
 const handleClickShowPassword = (e) => {
@@ -32,26 +36,26 @@ const handleSubmit = async (e) => {
 
 e.preventDefault();
 
-console.log(first_name.value);
-
-try{        
-        await axios.post(`${url}register/registeruser`, {
+let response = '';
+    try{        
+        response = await axios.post(`${url}/register/registeruser`, {
                 first_name:first_name.value,
                 last_name:last_name.value,
                 email:email.value,
                 number:number.value,
                 password:password.value
             })
-            alert('You Have Successfully Registered Your Account..!');
-            props.history.push('/');   
-        }catch(err) {
-            if(err.response.data.msg === undefined){
-                alert('Fill all the details');
-            }else{
-                alert(err.response.data.msg);
+            
+            setWorning(response.data);
+
+            if(response.data.status === 'success'){
+                localStorage.setItem('token', response.data.userToken);
+                props.history.push('/home');
             }
-            console.warn(err);
-        }}
+    } catch (err) {
+        setWorning('Please Enter the Valide Data..!!!');
+    }
+}
 
 return (
         <Box>
@@ -68,6 +72,18 @@ return (
             <Box className="containerSign">
                 <Card id="signInCard">
                     <Grid id="signInContent" >
+                        {
+                                Worning.status==='error'
+                            ? 
+                                <>
+                                    <Stack sx={{ width: '100%' }} spacing={2}>
+                                        <Alert variant="outlined" severity="error">{Worning.msg}</Alert>
+                                    </Stack>  
+                                    <br/>
+                                </>
+                            : 
+                                null
+                        } 
                         <form  style={{textAlign: 'center'}} onSubmit={(e) => handleSubmit(e)}>                        
                             <Box component="form" sx={{ '& .MuiTextField-root': { ml: 1.8, mr: 1.8,width: '13.6ch' }}}>
                                 <TextField

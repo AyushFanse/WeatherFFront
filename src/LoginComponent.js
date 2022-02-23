@@ -1,5 +1,7 @@
 import React,{ useState} from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 import {IconButton,Button,Grid,TextField,FormControl,InputLabel, Input,InputAdornment,Box} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -11,8 +13,8 @@ const LoginComponent = (props) => {
 const [email, setEmail] = useState('');
 const [password,setPassword] = useState('');
 const [showPassword,setShowPassword] = useState('');
-const [error,setError] = useState(false);
-const url = 'https://weather-forecasting-back.herokuapp.com/';
+const [Worning,setWorning] = useState('');
+const url = 'https://weather-forecasting-back.herokuapp.com';
 
 //-------------------------------* PASSWORD VISIBILITY *-------------------------------//
 const handleClickShowPassword = (e) => {
@@ -28,45 +30,37 @@ setShowPassword('');
 const handleSubmit = async (e) => {
 e.preventDefault();
     try{
-        var response = await axios.post(`${url}register/login`, {
+        var response = await axios.post(`${url}/register/login`, {
             password: password.value,
             email: email.value
-        }) 
-        if(response.data){
-            localStorage.setItem('token', response.data);
+        })         
+        
+        setWorning(response.data);
+
+        if(response.data.status === 'success'){
+            localStorage.setItem('token', response.data.userToken);
             props.history.push('/home');
         }
     } catch (err) {
-        alert('Please Enter the Valide Data..!!!');
-        console.warn(err);
+        setWorning({msg:'Please Enter the Valide Data..!!!'});
     }
 }
-//---------* Set Email *----------//
-const SetEmail = ((value)=>{
-    setEmail(value)
-    setError(false)
-})
 
-//---------* Set Password *----------//
-const SetPassword = ((value)=>{
-    setPassword(value)
-    setError(false)
-})
-
-//---------* Error *----------//
-const ErrorDetect= (()=>{
-    if(email==='' || password==='') {
-        setError(true)
-    } else {
-        setError(false)
-    }
-})
 
 return (
     <Box className="container">
         <Grid id="Logincard">
             <Grid id="content">
                 <h2 style={{textAlign: 'center'}} id="heading" >Login</h2>
+                {
+                    Worning.status==='error'
+                ? 
+                    <Stack sx={{ width: '100%' }} spacing={1}>
+                        <Alert variant="outlined" severity="error">{Worning.msg}</Alert>
+                    </Stack>
+                : 
+                    null
+                }
                 <br/>
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <Grid>
@@ -75,7 +69,7 @@ return (
                                 id="standard"
                                 label="Email"
                                 value={props.email}
-                                onChange={(e) => {SetEmail(e.currentTarget)}}
+                                onChange={(e) => {setEmail(e.currentTarget)}}
                                 InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="start">
@@ -96,7 +90,7 @@ return (
                                 style={{color: 'white'}}
                                 type={showPassword? 'text' : 'password'}
                                 value={props.password}
-                                onChange={(e) => {SetPassword(e.currentTarget)}}
+                                onChange={(e) => {setPassword(e.currentTarget)}}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -111,28 +105,11 @@ return (
                             />
                         </FormControl>
                     </Grid>
-                    {   
-                            error
-                        ?
-                            <Grid sx={{textAlign: 'center', margin: '10px 0 0 0'}}>
-                                <p id='error'>Fill all the data</p>
-                            </Grid>
-                        :
-                        null
-                    }
                     <Grid sx={{textAlign: 'center', margin: '20px 0'}}>
-                        {
-                                email==='' || password===''
-                            ?
-                                <Button id="buttonOff" variant="contained" onClick={()=>{ErrorDetect()}} >
-                                    Submit
-                                </Button>
-                            :
-                                <Button id="button" type="submit" variant="contained" disableElevation onClick={()=>{ErrorDetect()}}>
-                                    Submit
-                                </Button>
-                        }
-                        </Grid>
+                        <Button id="button" type="submit" variant="contained" disableElevation >
+                            Submit
+                        </Button>
+                    </Grid>
                     <Grid sx={{textAlign: 'center'}}>
                         <p id = "switchLogin">Don&apos;t have account ? <span id="switch" onClick={() =>{props.history.push('/signup')}} variant="body2">Sign-Up</span></p>
                     </Grid>
