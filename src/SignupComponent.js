@@ -53,7 +53,15 @@ let response = '';
                 props.history.push('/home');
             }
     } catch (err) {
-        setWorning('Please Enter the Valide Data..!!!');
+        
+        if(err.response.data.msg === undefined){
+            setWorning({status:'error', msg:'Please fill all the details..!!!'});
+            alert('Please fill all the details..!!!');
+        }else{
+            setWorning({status:'error', msg:err.response.data.msg});
+            alert(err.response.data.msg);
+        }
+        
     }
 }
 
