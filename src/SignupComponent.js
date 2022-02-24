@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect , useState} from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -31,37 +31,38 @@ event.preventDefault();
 setShowPassword('');
 };
 
+useEffect(()=>{setTimeout(()=>{setWorning('');},3000)},[first_name, last_name, email, number, password])
+
 //-------------------------------* SIGN-UP ACCOUNT FUNCTION *-------------------------------//
 const handleSubmit = async (e) => {
 
 e.preventDefault();
 
 let response = '';
-    try{        
-        response = await axios.post(`${url}/register/registeruser`, {
-                first_name:first_name.value,
-                last_name:last_name.value,
-                email:email.value,
-                number:number.value,
-                password:password.value
-            })
-            
-            setWorning(response.data);
-
-            if(response.data.status === 'success'){
-                localStorage.setItem('token', response.data.userToken);
-                props.history.push('/home');
-            }
-    } catch (err) {
-        
-        if(err.response.data.msg === undefined){
-            setWorning({status:'error', msg:'Please fill all the details..!!!'});
-            alert('Please fill all the details..!!!');
+    try{     
+        if(first_name==='' && last_name==='' && email==='' && number==='' && password==='' ) {   
+            setWorning({status:'error', msg:'Please fill all the details..!!!'});      
+            setTimeout(()=>{setWorning('');},10000) 
         }else{
+            response = await axios.post(`${url}/register/registeruser`, {
+                    first_name:first_name.value,
+                    last_name:last_name.value,
+                    email:email.value,
+                    number:number.value,
+                    password:password.value
+                })
+                
+                setWorning(response.data);
+                setTimeout(()=>{setWorning('');},10000) 
+
+                if(response.data.status === 'success'){
+                    localStorage.setItem('token', response.data.userToken);
+                    props.history.push('/home');
+            }}
+    } catch (err) {
             setWorning({status:'error', msg:err.response.data.msg});
             alert(err.response.data.msg);
-        }
-        
+            setTimeout(()=>{setWorning('');},10000) 
     }
 }
 
@@ -93,7 +94,7 @@ return (
                                 null
                         } 
                         <form  style={{textAlign: 'center'}} onSubmit={(e) => handleSubmit(e)}>                        
-                            <Box component="form" sx={{ '& .MuiTextField-root': { ml: 1.8, mr: 1.8,width: '13.6ch' }}}>
+                            <Box sx={{ '& .MuiTextField-root': { ml: 1.8, mr: 1.8,width: '13.6ch' }}}>
                                 <TextField
                                     id="standard"
                                     label="First-Name"
@@ -112,7 +113,7 @@ return (
                                     onChange={(e) => {setLastName(e.currentTarget)}}
                                     />
                             </Box>
-                            <Box component="form" sx={{ '& .MuiTextField-root': { m: 1.8, width: 293}}}>
+                            <Box sx={{ '& .MuiTextField-root': { m: 1.8, width: 293}}}>
                                 <TextField
                                         id="standard"
                                         label="Email"
@@ -122,7 +123,7 @@ return (
                                         onChange={(e) => {setEmail(e.currentTarget)}}
                                     />                                 
                             </Box>
-                            <Box component="form" sx={{ mt:-2, '& .MuiTextField-root': {m: 1.8, width: 293}}}>
+                            <Box sx={{ mt:-2, '& .MuiTextField-root': {m: 1.8, width: 293}}}>
                                 <TextField
                                     id="standard"
                                     label="Number"
