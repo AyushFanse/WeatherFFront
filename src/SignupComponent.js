@@ -31,7 +31,7 @@ event.preventDefault();
 setShowPassword('');
 };
 
-useEffect(()=>{setTimeout(()=>{setWorning('');},3000)},[first_name, last_name, email, number, password])
+useEffect(()=>{setTimeout(()=>{setWorning('')},3000)},[first_name, last_name, email, number, password])
 
 //-------------------------------* SIGN-UP ACCOUNT FUNCTION *-------------------------------//
 const handleSubmit = async (e) => {
@@ -42,7 +42,6 @@ let response = '';
     try{     
         if(first_name==='' && last_name==='' && email==='' && number==='' && password==='' ) {   
             setWorning({status:'error', msg:'Please fill all the details..!!!'});      
-            setTimeout(()=>{setWorning('');},10000) 
         }else{
             response = await axios.post(`${url}/register/registeruser`, {
                     first_name:first_name.value,
@@ -53,7 +52,6 @@ let response = '';
                 })
                 
                 setWorning(response.data);
-                setTimeout(()=>{setWorning('');},10000) 
 
                 if(response.data.status === 'success'){
                     localStorage.setItem('token', response.data.userToken);
@@ -62,8 +60,8 @@ let response = '';
     } catch (err) {
             setWorning({status:'error', msg:err.response.data.msg});
             alert(err.response.data.msg);
-            setTimeout(()=>{setWorning('');},10000) 
     }
+    setTimeout(()=>{setWorning('')},7000) 
 }
 
 return (

@@ -1,4 +1,4 @@
-import React,{ useState} from 'react';
+import React,{ useEffect, useState} from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -29,21 +29,27 @@ setShowPassword('');
 //-------------------------------* LOGIN PART *-------------------------------//
 const handleSubmit = async (e) => {
 e.preventDefault();
+let response = '';
     try{
-        var response = await axios.post(`${url}/register/login`, {
-            password: password.value,
-            email: email.value
-        })         
-        
-        setWorning(response.data);
+        if( email==='' && password==='' ){ 
+            setWorning({ status:'error', msg:'Please fill all the details..!!!' });      
+            }else{
+                response = await axios.post(`${url}/register/login`, {
+                    password: password.value,
+                    email: email.value
+                })         
+                
+                setWorning(response.data);
 
-        if(response.data.status === 'success'){
-            localStorage.setItem('token', response.data.userToken);
-            props.history.push('/home');
-        }
+                if(response.data.status === 'success'){
+                    localStorage.setItem( 'token', response.data.userToken );
+                    props.history.push('/home');
+                }}
     } catch (err) {
-        setWorning({msg:'Please Enter the Valide Data..!!!'});
+        setWorning({status:'error', msg:err.response.data.msg});
+        alert(err.response.data.msg);
     }
+    setTimeout(()=>{setWorning('')}, 7000) 
 }
 
 
