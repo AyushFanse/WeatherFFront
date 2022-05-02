@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import {IconButton,MenuItem,Menu,Typography,Toolbar,Box} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -12,42 +13,73 @@ const Home = (props) => {
 //-------------------------------* USE-STATE METHODS *-------------------------------//
 const [anchorEl, setAnchorEl] =useState(null);
 const [searchelement, setSearch] = useState('');
+const [searchResult, setSearchResult] = useState(`It's a beautiful Day...`);
 const [weather, setWeather] = useState('');
+const [locator, setLocator] = useState('');
 const localToken = localStorage.getItem('token');
 const decodedToken = jwt.decode(localToken);
-const FatchData = useRef();
 const [AmPm, setAmPm]= useState('');
+const history = useHistory();
+let DateNow = new Date(Date.now());
+const Key = '08d082b236fd458698d125650210612';
+const URL = 'https://api.weatherapi.com/v1/current.json';
 
 //-------------------------------* USE-EFFECT METHODS *-------------------------------//
 
-const Fatch = (async()=>{   
+useEffect(()=>{
     if(decodedToken===null){
-        props.history.push('/');
+        history.replace('/');
         alert("Session Timeout Please Login Again...");
     }   else{
             if( decodedToken.exp*1000<=Date.now()){
-                props.history.push('/');
-            }else{
-                try{
-                    if(searchelement!==''){
-                        const response = await axios.get(`https://api.weatherapi.com/v1/current.json?key=08d082b236fd458698d125650210612&q=${searchelement}&aqi=no`);
-                        if(response){
-                            setWeather(response.data);
-                        }else{
-                            setWeather('');
-                        }
-                    }
-                }
-                catch{
-                    setWeather('');
-                }
-                let DateNow = new Date(Date.now());
-                DateNow.getHours()>12 ? setAmPm("PM") : setAmPm("AM");
-}}})
+                history.replace('/');
+            }               
+            }
+    if(searchelement===''){
+        setSearchResult(`It's a beautiful Day...`)
+    }
+},[history,decodedToken, searchelement])
 
-FatchData.current = Fatch;
 
-useEffect(()=>{FatchData.current()},[searchelement])
+
+//-------------------------------* MANU FUNCTIONS *-------------------------------//
+useEffect(()=>{
+const Locator=(async()=>{
+    const response = await axios.get(`${URL}?key=${Key}&q=auto:ip`)
+    setLocator(response.data);
+    })
+Locator();
+},[])
+
+//-------------------------------* MANU FUNCTIONS *-------------------------------//
+
+const DateBuilder = (()=>{
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    let day = days[DateNow.getDay()];
+    let date = DateNow.getDate();
+    let month = months[DateNow.getMonth()];
+    let year = DateNow.getFullYear();
+
+    return `${day}, ${date} ${month} ${year}`
+})
+
+//-------------------------------* SEARCH FUNCTION *-------------------------------//
+
+const Search = (async (event)=>{
+    if(event.key==='Enter'){
+        try{
+            const response = await axios.get(`${URL}?key=${Key}&q=${searchelement}`);
+                    setWeather(response.data);
+            
+            DateNow.getHours()>12 ? setAmPm("PM") : setAmPm("AM");
+        }catch(err){
+            setSearchResult('Please Enter Valide Data...')
+        }
+    }
+})
+
 //-------------------------------* MANU FUNCTIONS *-------------------------------//
 const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -59,18 +91,25 @@ const handleClose = () => {
 
 //-------------------------------* NAVIGAT FUNCTIONS *-------------------------------//
 const profile = ()=>{
-    props.history.push('/profile');
+    history.replace('/profile');
 };
 
 const logout = ()=>{
     localStorage.removeItem('token');
-    props.history.push('/');
+    history.replace('/');
     alert('You have been logged out');
 };
 
 return (
     <Box sx={{ flexGrow: 1}}>
         <Toolbar variant="dense" sx={{m:2, display: 'flex', justifyContent: 'end', color: 'white'}}> 
+                <h6 className="selectedFont d-flex justify-content-center" style={{fontSize: '28px', marginTop:'-7px'}} >
+                    {locator?(`${locator.location.name},`):null}
+                </h6> 
+                &nbsp;
+                <h6 className="selectedFont d-flex justify-content-center" >
+                    {DateBuilder()}
+                </h6>
             {(
             <div>
                 <IconButton
@@ -100,7 +139,7 @@ return (
                     onClick={handleClose}
                 >
                     <MenuItem id="menuItemsOut">
-                        <Typography id="menuItemsUser"> Hi {decodedToken ? decodedToken.user.first_name : null} !</Typography>
+                        <Typography id="menuItemsUser"> Hi {decodedToken ? decodedToken.user.first_name : 'User'} !</Typography>
                     </MenuItem>                
                     <MenuItem id="menuItemsOut" onClick={profile} >
                         <AccountCircleRoundedIcon id="menuItemsIcon"/> &nbsp; &nbsp;
@@ -124,8 +163,13 @@ return (
                     <input
                         type="search"
                         id="searchField"
-                        onChange={(e)=>{setSearch(e.currentTarget.value.toLowerCase())}}
+                        onChange={(e)=>{
+                            setSearch(e.currentTarget.value.toLowerCase());
+                            setWeather('');
+                        }}
+                        value={searchelement}
                         placeholder={"Search…"}
+                        onKeyPress={Search}
                     />
                 </div>
             </div>
@@ -140,18 +184,9 @@ return (
                             </h5>
                             <hr/>
                             <span>
-                            {
-                                searchelement!==''
-                                ?
-                                    <h5 className="selectedFont"> 
-                                        Please Enter Valide Data... 
-                                    </h5>
-                                :
-                                    <h5 className="selectedFont"> 
-                                        It&#39;s a beautiful Day... 
-                                    </h5>
-                            }
-                                
+                                <h5 className="selectedFont"> 
+                                    {searchResult}
+                                </h5>
                                 <span className="d-flex justify-content-center">
                                     <img className="weatherImgError" src="Weather.png" alt="Weather.png"/>
                                 </span>
@@ -169,7 +204,7 @@ return (
                                 </span>
                                 <span className="col-5">
                                     <span>
-                                        <span className="img"><img className="shadow" src={weather.current.condition.icon} alt={weather.current.condition.icon} /></span>
+                                        <span className="img"><img className="shadow" src={weather.current.condition.icon} alt='img' /></span>
                                         <span><h5 className="dis p-1 font">{weather.current.condition.text}</h5></span>
                                     </span>
                                 </span> 
@@ -183,10 +218,11 @@ return (
                         </div>
                     </div>            
                 }
-            </div>        
+            </div>       
         </div>
     </Box>
 )
 };
 
 export default Home;
+// last_updated_epoch

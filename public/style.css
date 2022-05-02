@@ -1,3 +1,6 @@
+*{
+    font-family: 'Montserrat';
+}
 :root, #root{
     background: rgb(33, 47, 61);
 }
@@ -94,40 +97,20 @@ input[type="search1"],[type="button1"]{
     color:rgb(182, 184, 185);
     overflow:hidden;
 }
-@media (min-width: 768px){
-    .container{
-        height:100vh;
-    }
-}
-@media (max-width: 768px){
-    .container{
-        height:40vh;
-    }
-}
 .container{
     display:grid;
     place-items: center;
-}
-
-@media (min-width: 768px){
-    .containerSign{
-        height:93vh;
-    }
-}
-@media (max-width: 768px){
-    .containerSign{
-        height:40vh;
-    }
+    height:600px;
 }
 .containerSign{
     display:grid;
     place-items: center;
+    height:650px;
 }
 .cardContaint{
     margin-top: 50px;
     display:flex;
     justify-content: center;
-    width:100%;
 }
 #wrong{
     width:400px;
@@ -172,6 +155,8 @@ input[type="search1"],[type="button1"]{
 }
 #switchLogin{
     color:rgb(0, 0, 0);
+    font-size:0.9em;
+    font-weight:600;
     cursor:default;
 }
 #profileCard{
@@ -302,4 +287,20 @@ input[type="search1"],[type="button1"]{
 }
 .css-6hp17o-MuiList-root-MuiMenu-list {
     background: rgb(15, 20, 26);
+}
+#title{
+    color:#fff;
+}
+#CircularProgress{
+    color: var(--theam);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+}
+#loginIcon{    
+    font-size: 1em;
+    margin-top: -12px;
+    text-shadow: 3px 3px 7px rgba(0,0,0,0.5);
 }

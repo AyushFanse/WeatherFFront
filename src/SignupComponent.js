@@ -2,7 +2,7 @@ import React, { useEffect , useState} from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import {IconButton,Button,Grid,TextField,FormControl,Card,Input,AppBar,InputLabel,Toolbar,Typography,InputAdornment,Box} from '@mui/material';
+import {IconButton,Button,Grid, FormControl,Card,Input,AppBar,InputLabel,Toolbar, CircularProgress,Typography,InputAdornment,Box} from '@mui/material';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -14,6 +14,7 @@ const LoginComponent = (props) => {
 const [email, setEmail] = useState('');
 const [password,setPassword] = useState('');
 const [showPassword,setShowPassword] = useState('');
+const [loading, setLoading] = useState(false);
 const [first_name,setFirstName] = useState('');
 const [last_name,setLastName] = useState('');
 const [Worning,setWorning] = useState('');
@@ -40,6 +41,7 @@ e.preventDefault();
 
 let response = '';
     try{     
+        setLoading(true)
         if(first_name==='' && last_name==='' && email==='' && number==='' && password==='' ) {   
             setWorning({status:'error', msg:'Please fill all the details..!!!'});      
         }else{
@@ -54,13 +56,13 @@ let response = '';
                 setWorning(response.data);
 
                 if(response.data.status === 'success'){
-                    localStorage.setItem('token', response.data.userToken);
-                    props.history.push('/home');
+                    props.history.push('/');
             }}
     } catch (err) {
             setWorning({status:'error', msg:err.response.data.msg});
             alert(err.response.data.msg);
-    }
+    }    
+    setLoading(false)
     setTimeout(()=>{setWorning('')},7000) 
 }
 
@@ -92,53 +94,75 @@ return (
                                 null
                         } 
                         <form  style={{textAlign: 'center'}} onSubmit={(e) => handleSubmit(e)}>                        
-                            <Box sx={{ '& .MuiTextField-root': { ml: 1.8, mr: 1.8,width: '13.6ch' }}}>
-                                <TextField
-                                    id="standard"
-                                    label="First-Name"
-                                    size="small"
-                                    variant="standard"
-                                    aria-required="true"
-                                    value={props.first_name}
-                                    onChange={(e) => {setFirstName(e.currentTarget)}}
+                            <Box sx={{ '& .MuiTextField-root': { width: 293, mt:2 }}}>
+                                <FormControl sx={{ width: 140, mr:1  }}>
+                                    <InputLabel sx={{ ml:-1.6}} id="title" focused htmlFor="input-with-icon-textfield1">
+                                        First Name
+                                    </InputLabel>
+                                    <Input
+                                        id="input-with-icon-textfield1"
+                                        name='first_name'
+                                        aria-required="true"
+                                        style={{color: 'white'}}
+                                        value={props.first_name}
+                                        onChange={(e) => {setFirstName(e.currentTarget)}}
+                                        label="First Name"
+                                        aria-describedby="component-warning-text"
                                     />
-                                <TextField
-                                    id="standard"
-                                    label="Last-Name"
-                                    size="small"
-                                    variant="standard"
-                                    value={props.last_name}
-                                    onChange={(e) => {setLastName(e.currentTarget)}}
+                                </FormControl>
+                                <FormControl sx={{ width: 140, ml:1 }}>
+                                    <InputLabel sx={{ ml:-1.6}} id="title" focused htmlFor="input-with-icon-textfield2">
+                                        Last Name
+                                    </InputLabel>
+                                    <Input
+                                        id="input-with-icon-textfield2"
+                                        name='last_name'
+                                        aria-required="true"
+                                        style={{color: 'white'}}
+                                        value={props.last_name}
+                                        onChange={(e) => {setLastName(e.currentTarget)}}
+                                        label="Last Name"
+                                        aria-describedby="component-warning-text"
                                     />
+                                </FormControl>
                             </Box>
-                            <Box sx={{ '& .MuiTextField-root': { m: 1.8, width: 293}}}>
-                                <TextField
-                                        id="standard"
-                                        label="Email"
-                                        size="small"
-                                        variant="standard"
-                                        value={props.email}
-                                        onChange={(e) => {setEmail(e.currentTarget)}}
-                                    />                                 
-                            </Box>
-                            <Box sx={{ mt:-2, '& .MuiTextField-root': {m: 1.8, width: 293}}}>
-                                <TextField
-                                    id="standard"
-                                    label="Number"
-                                    size="small"
-                                    variant="standard"
+                            <FormControl sx={{ width: 293, mt:2 }}>
+                                <InputLabel sx={{ ml:-1.6}} id="title" focused htmlFor="input-with-icon-textfield3">
+                                    Email
+                                </InputLabel>
+                                <Input
+                                    id="input-with-icon-textfield3"
+                                    name='email'
+                                    style={{color: 'white'}}
+                                    value={props.email}
+                                    onChange={(e) => {setEmail(e.currentTarget)}}
+                                    label="Email"
+                                    aria-describedby="component-warning-text"
+                                />
+                            </FormControl>
+                            <FormControl sx={{ width: 293, mt:2 }}>
+                                <InputLabel sx={{ ml:-1.6}} id="title" focused htmlFor="input-with-icon-textfield4">
+                                    Number
+                                </InputLabel>
+                                <Input
+                                    id="input-with-icon-textfield4"
+                                    name='name'
+                                    style={{color: 'white'}}
                                     value={props.number}
                                     onChange={(e) => {setNumber(e.currentTarget)}}
-                                    />
-                            </Box>
-                            <FormControl sx={{ '& .MuiTextField-root': { m: 0}}}>
-                            <InputLabel htmlFor="standard-adornment-password" sx={{ml:-1.7}}>Password</InputLabel>
+                                    label="Number"
+                                    aria-describedby="component-warning-text"
+                                />
+                            </FormControl>
+                            <FormControl sx={{ '& .MuiTextField-root': { m: 0}, mt:2}}>
+                                <InputLabel htmlFor="standard-adornment-password" id="title" focused sx={{ml:-1.7}}>Password</InputLabel>
                                 <Input
                                     id="standard-adornment-password"
                                     type={showPassword? 'text' : 'password'}
                                     value={props.password}
                                     size="small"
                                     style={{color: 'white'}}
+                                    label="Password"
                                     sx={{width: 293}}
                                     onChange={(e) => {setPassword(e.currentTarget)}}
                                     endAdornment={
@@ -158,10 +182,11 @@ return (
                                 <Button  id="button" sx={{mt:3}} type="submit" variant="contained" disableElevation >
                                     Create Account
                                 </Button>
-                                <Grid sx={{textAlign: 'center', m:2, cursor: 'pointer'}}>
-                                    <p id = "switchLogin">Already have account ? <span id="switch" onClick={() =>{props.history.push('/')}} variant="body2">Log-In</span></p>
-                                </Grid>                            
+                                {loading && ( <CircularProgress size={50} id='CircularProgress' /> )}
                             </Grid>
+                            <Grid sx={{textAlign: 'center', m:2, cursor: 'pointer'}}>
+                                <p id = "switchLogin">Already have account ? <span id="switch" onClick={() =>{props.history.push('/')}} variant="body2">Login</span></p>
+                            </Grid>                            
                         </form>
                     </Grid>
                 </Card>
