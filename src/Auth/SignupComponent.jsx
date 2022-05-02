@@ -3,9 +3,7 @@ import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import {IconButton,Button,Grid, FormControl,Card,Input,AppBar,InputLabel,Toolbar, CircularProgress,Typography,InputAdornment,Box} from '@mui/material';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Visibility, VisibilityOff, NavigateBefore } from '@mui/icons-material';
 
 
 const LoginComponent = (props) => {
@@ -71,7 +69,7 @@ return (
             <AppBar id="navBar" position="static">
                 <Toolbar variant="dense">
                     <IconButton onClick={()=>{props.history.goBack()}} edge="start" id="signInHead" aria-label="menu" sx={{ mr: 2 }}>
-                    <NavigateBeforeIcon id="icons"/>
+                    <NavigateBefore id="icons"/>
                     </IconButton>
                     <Typography variant="h6" component="div" id="signInHead" sx={{ flexGrow: 1, textAlign: 'center' }}>
                         Sign-up

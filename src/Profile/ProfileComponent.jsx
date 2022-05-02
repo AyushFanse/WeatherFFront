@@ -16,8 +16,7 @@ const [anchorEl, setAnchorEl] = useState(null);
 const [user, setUser] = useState([]);
 const localToken = localStorage.getItem('token');
 const decodedToken = jwt.decode(localToken);
-// const url = 'https://weather-forecasting-back.herokuapp.com';
-const url = 'http://localhost:3001';
+const url = 'https://weather-forecasting-back.herokuapp.com';
 const FatchData = useRef();
 
 //-------------------------------* USE-EFFECT METHODS *-------------------------------//
