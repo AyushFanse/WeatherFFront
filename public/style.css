@@ -219,7 +219,7 @@ input[type="search1"],[type="button1"]{
 }
 .selectedFont{
     text-align:center;
-    color: rgb(255, 159, 159);
+    color: rgba(245, 74, 74, 0.87);
     text-shadow: 2px 3.7px 5px #000;
     font-family: 'Montserrat' ;
     margin:0px;
@@ -230,8 +230,10 @@ input[type="search1"],[type="button1"]{
     font-family: 'Montserrat';
     width:auto
 }
-.shadow{
-    filter: drop-shadow(0 8px 8px #000)
+.shadows{
+    filter: drop-shadow(0 8px 8px #000);
+    width: 115px;
+    margin-top: -27px;
 }
 .font{
     color:rgb(121, 126, 136);

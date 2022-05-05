@@ -1,12 +1,12 @@
-import React, { useEffect , useState} from 'react';
+import React, { useEffect , useState } from 'react';
 import axios from 'axios';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
-import {IconButton,Button,Grid, FormControl,Card,Input,AppBar,InputLabel,Toolbar, CircularProgress,Typography,InputAdornment,Box} from '@mui/material';
-import { Visibility, VisibilityOff, NavigateBefore } from '@mui/icons-material';
+import { useHistory } from "react-router-dom";
+import { Alert, Stack, IconButton, Button, Grid, FormControl, Card, Input, InputLabel, CircularProgress, InputAdornment, Box } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Navbar from '../Navbar/Navbar';
 
 
-const LoginComponent = (props) => {
+const LoginComponent = ( {URL}, props ) => {
 
 //-------------------------------* USE-STATE METHODS *-------------------------------//
 const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ const [first_name,setFirstName] = useState('');
 const [last_name,setLastName] = useState('');
 const [Worning,setWorning] = useState('');
 const [number,setNumber] = useState('');
-const url = 'https://weather-forecasting-back.herokuapp.com';
+const history = useHistory();
 
 
 //-------------------------------* PASSWORD VISIBILITY FUNCTIONS *-------------------------------//
@@ -43,7 +43,7 @@ let response = '';
         if(first_name==='' && last_name==='' && email==='' && number==='' && password==='' ) {   
             setWorning({status:'error', msg:'Please fill all the details..!!!'});      
         }else{
-            response = await axios.post(`${url}/register/registeruser`, {
+            response = await axios.post(`${URL}/register/registeruser`, {
                     first_name:first_name.value,
                     last_name:last_name.value,
                     email:email.value,
@@ -54,7 +54,7 @@ let response = '';
                 setWorning(response.data);
 
                 if(response.data.status === 'success'){
-                    props.history.push('/');
+                    history.push('/');
             }}
     } catch (err) {
             setWorning({status:'error', msg:err.response.data.msg});
@@ -66,16 +66,7 @@ let response = '';
 
 return (
         <Box>
-            <AppBar id="navBar" position="static">
-                <Toolbar variant="dense">
-                    <IconButton onClick={()=>{props.history.goBack()}} edge="start" id="signInHead" aria-label="menu" sx={{ mr: 2 }}>
-                    <NavigateBefore id="icons"/>
-                    </IconButton>
-                    <Typography variant="h6" component="div" id="signInHead" sx={{ flexGrow: 1, textAlign: 'center' }}>
-                        Sign-up
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Navbar Page={'Home'} />
             <Box className="containerSign">
                 <Card id="signInCard">
                     <Grid id="signInContent" >
@@ -183,7 +174,7 @@ return (
                                 {loading && ( <CircularProgress size={50} id='CircularProgress' /> )}
                             </Grid>
                             <Grid sx={{textAlign: 'center', m:2, cursor: 'pointer'}}>
-                                <p id = "switchLogin">Already have account ? <span id="switch" onClick={() =>{props.history.push('/')}} variant="body2">Login</span></p>
+                                <p id = "switchLogin">Already have account ? <span id="switch" onClick={() =>{history.push('/')}} variant="body2">Login</span></p>
                             </Grid>                            
                         </form>
                     </Grid>

@@ -1,13 +1,12 @@
 import React,{ useState} from 'react';
 import axios from 'axios';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
-import { IconButton, Button, Grid, FormControl, InputLabel, CircularProgress, Input, InputAdornment, Box } from '@mui/material';
+import { useHistory } from "react-router-dom";
+import { Alert, Stack, IconButton, Button, Grid, FormControl, InputLabel, CircularProgress, Input, InputAdornment, Box } from '@mui/material';
 import { Visibility, VisibilityOff, LockTwoTone, AccountCircle } from '@mui/icons-material';
 
 
 
-const LoginComponent = (props) => {
+const LoginComponent = ( { URL } , props ) => {
 
 //-------------------------------* USE-STATE METHODS *-------------------------------//
 const [email, setEmail] = useState('');
@@ -15,7 +14,7 @@ const [password,setPassword] = useState('');
 const [loading, setLoading] = useState(false);
 const [showPassword,setShowPassword] = useState('');
 const [Worning,setWorning] = useState('');
-const url = 'https://weather-forecasting-back.herokuapp.com';
+const history = useHistory();
 
 //-------------------------------* PASSWORD VISIBILITY *-------------------------------//
 const handleClickShowPassword = (e) => {
@@ -36,7 +35,7 @@ let response = '';
         if( email==='' && password==='' ){ 
             setWorning({ status:'error', msg:'Please fill all the details..!!!' });      
             }else{
-                response = await axios.post(`${url}/register/login`, {
+                response = await axios.post(`${URL}/register/login`, {
                     password: password.value,
                     email: email.value
                 })         
@@ -45,11 +44,11 @@ let response = '';
 
                 if(response.data.status === 'success'){
                     localStorage.setItem( 'token', response.data.userToken );
-                    props.history.push('/home');
+                    history.push('/home');
                 }}
     } catch (err) {
-        setWorning({status:'error', msg:err.response.data.msg});
-        alert(err.response.data.msg);
+        // setWorning({status:'error', msg:err.response.data.msg});
+        // alert(err.response.data.msg);
     }
     setLoading(false)
     setTimeout(()=>{setWorning('')}, 7000) 
@@ -124,7 +123,7 @@ return (
                         {loading && ( <CircularProgress size={24} id='CircularProgress' /> )}
                     </Grid>
                     <Grid sx={{textAlign: 'center'}}>
-                        <p id = "switchLogin">Don&apos;t have account ? <span id="switch" onClick={() =>{props.history.push('/signup')}} variant="body2">Sign-Up</span></p>
+                        <p id = "switchLogin">Don&apos;t have account ? <span id="switch" onClick={() =>{history.push('/signup')}} variant="body2">Sign-Up</span></p>
                     </Grid>
                 </form>
             </Grid>
