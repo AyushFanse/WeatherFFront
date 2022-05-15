@@ -1,9 +1,9 @@
 import React from 'react';
 import {Route, BrowserRouter, Switch} from "react-router-dom";
 import Home from './Home/Home';
-import Login from './Auth/LoginComponent';
-import Signup from './Auth/SignupComponent';
-import Profile from './Profile/ProfileComponent';
+import Login from './Auth/Login';
+import Signup from './Auth/Signup';
+import Profile from './Profile/Profile';
 import Error from './Error/Error';
 
 const URL = 'https://weather-forecasting-back.herokuapp.com';
