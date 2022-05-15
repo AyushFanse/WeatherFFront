@@ -75,7 +75,7 @@ const LoginComponent = ({ URL }) => {
 
     return (
         <Box>
-            <Navbar Page={'Home'} />
+            <Navbar Page={'Sinup'} />
             <Box className="containerSign">
                 <Card id="signInCard">
                     <Grid id="signInContent" >
