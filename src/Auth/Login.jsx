@@ -51,10 +51,14 @@ const LoginComponent = ({ URL }, props) => {
 
 				setWorning(response.data);
 
-				if (response.data.status === 'success') {
-					localStorage.setItem('token', response.data.userToken);
-					history.push('/home');
-				}
+                if (response.status === 200) {
+                    localStorage.setItem('token', response.data.userToken);
+                    history.replace('/home');
+                }
+
+                if (response.status === 400) {
+                    setWorning({ status: 'error', msg: response.data.msg })
+                }
 			} else {
 				setWorning({ status: 'error', msg: 'Please fill all the details..!!!' });
 			}
