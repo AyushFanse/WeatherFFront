@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Alert, Stack, IconButton, Button, Grid, FormControl, Card, Input, InputLabel, CircularProgress, InputAdornment, Box } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Navbar from '../Navbar/Navbar';
-
+import "./auth.css";
 
 const LoginComponent = ({ URL }) => {
 
@@ -22,8 +22,8 @@ const LoginComponent = ({ URL }) => {
         setShowPassword(e.currentTarget);
     };
 
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
+    const handleMouseDownPassword = (e) => {
+        e.preventDefault();
         setShowPassword('');
     };
 
@@ -33,30 +33,33 @@ const LoginComponent = ({ URL }) => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-        const data = contactForm.current;
+        let data = contactForm.current;
 
         try {
             setLoading(true)
             if (data.first_name.value && data.last_name.value && data.email.value && data.number.value && data.password.value) {
+                
                 let response = await axios.post(`${URL}/register/registeruser`, {
                     first_name: data.first_name.value,
                     last_name: data.last_name.value,
                     email: data.email.value,
                     number: data.number.value,
-                    password: data.password.value,
+                    password: data.password.value
                 })
-
+                
                 if (response.status === 201) {
                     history.push('/');
-                    alert("You have successfully created your account...");
+                    alert(response.data.msg);
                 }
 
                 if (response.status === 400) {
                     setWorning({ status: 'error', msg: "Your Are offline" })
+                    setLoading(false);
                 }
 
             } else {
                 setWorning({ status: 'error', msg: 'Please fill all the details..!!!' })
+				setLoading(false);
             }
         } catch (err) {
 
@@ -69,8 +72,12 @@ const LoginComponent = ({ URL }) => {
             setWorning({ status: 'error', msg: err.response.data.msg });
             setLoading(false)
         }
-        setLoading(false)
-        setTimeout(() => { setWorning('') }, 7000)
+
+        return()=>{
+            data='';
+            setLoading(false);
+            setTimeout(() => { setWorning('') }, 7000)
+        }
     }
 
     return (
@@ -138,7 +145,7 @@ const LoginComponent = ({ URL }) => {
                                 </InputLabel>
                                 <Input
                                     id="input-with-icon-textfield4"
-                                    name='name'
+                                    name='number'
                                     style={{ color: 'white' }}
                                     label="Number"
                                     aria-describedby="component-warning-text"
@@ -154,6 +161,7 @@ const LoginComponent = ({ URL }) => {
                                     style={{ color: 'white' }}
                                     label="Password"
                                     sx={{ width: 293 }}
+                                    autoComplete='false'
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton

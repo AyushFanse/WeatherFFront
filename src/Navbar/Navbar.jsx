@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useHistory } from "react-router-dom";
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import "./navbar.css";
 
 const Navbar = ({ Page, Key, W_URL, DateNow }) => {
     
@@ -22,6 +23,9 @@ const LocatorRef = useRef();
     },[])
 
     const Locator = (async()=>{
+        if(Page !== 'Home'){
+            return;
+        }
         const response = await axios.get(`${W_URL}?key=${Key}&q=auto:ip`)
         setLocator(response.data);
     })
@@ -38,7 +42,7 @@ const LocatorRef = useRef();
         let month = months[DateNow.getMonth()];
         let year = DateNow.getFullYear();
 
-        return `${day}, ${date} ${month} ${year}`
+        return `${date} ${month} ${year}, ${day}`
     })
 
 //-------------------------------* MANU FUNCTIONS *-------------------------------//
@@ -83,8 +87,8 @@ const LocatorRef = useRef();
                     ? 
                         (
                             <div> 
-                                <h6 className="selectedFont d-flex justify-content-center" style={{ color:'rgb(182, 184, 185)', fontSize: '20px' }} >
-                                    {locator?(`${locator.location.name}, `):null} &nbsp;
+                                <h6 className="selectedFont d-flex justify-content-center" style={{ color:'rgb(182, 184, 185)', fontSize: '20px', paddingLeft: '10px', borderLeft: 'ridge' }} >
+                                    {locator?(`${locator.location.name}, `):null}&nbsp;
                                     <span className="selectedFont d-flex justify-content-center" style={{ color:'rgb(182, 184, 185)', fontSize: '14px', marginTop:'7px' }} >
                                         {DateBuilder()}
                                     </span> 
@@ -129,7 +133,7 @@ const LocatorRef = useRef();
                                     onClick={handleClose}
                                 >
                                     <MenuItem id="menuItemsOut">
-                                        <Typography id="menuItemsUser"> Hi {decodedToken ? decodedToken.user.first_name : 'User'} !</Typography>
+                                        <Typography id="menuItemsUser"> Hi {decodedToken ? decodedToken.user.first_name : 'User'} !&nbsp;<img className='wave' src="https://raw.githubusercontent.com/MartinHeinz/MartinHeinz/master/wave.gif" alt='' /></Typography>
                                     </MenuItem>  
                                         {
                                             Page==='Home'

@@ -1,308 +1,43 @@
-*{
+* {
     font-family: 'Montserrat';
 }
-:root, #root{
+
+:root,
+#root {
     background: rgb(33, 47, 61);
 }
-#icons{
+
+#icons {
     color: white;
 }
-#switch{
-    color: white;
-    cursor: pointer;
-}
-#heading{
-    font-family: 'Montserrat' ;
-    color: white;
-}
-.Title{
-    color:rgb(207, 207, 207);
-    text-align:center;
-    font-family: 'Montserrat' ;
+
+.Title {
+    color: rgb(207, 207, 207);
+    text-align: center;
+    font-family: 'Montserrat';
     font-size: 3rem;
     margin-bottom: -7px;
     text-shadow: 4px 8px 7px rgb(1, 4, 7);
 }
-.ProfileTitle{
-    color:rgb(207, 207, 207);
-    text-align:center;
-    font-family: 'Montserrat' ;
-    font-size: 2rem;
-    text-shadow: 4px 8px 7px rgb(1, 4, 7);
-}
-.input-group{
+
+.input-group {
     justify-content: center;
 }
-input[type="search1"]{
+
+input[type="search1"] {
     background: none;
     border: none;
 }
-@media (max-width: 768px){
-    input[type="search1"]{
-        width:225px;
+
+@media (max-width: 768px) {
+    input[type="search1"] {
+        width: 225px;
         transition: 0.5s;
     }
 }
-#search{
-    font-size:20px;
-    text-align:center;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-input[type="search1"],[type="button1"]{
-    height:45px;
-}
-#button{
-    background: rgb(15, 20, 26);
-}
-#buttonOff{
-    background: rgb(72, 86, 104);
-    color:rgb(185, 183, 183);
-}
-.form{
-    display:flex;
-    justify-content: space-between;
-    width:400px;
-    border-radius: 15px;
-    background: rgb(182, 184, 185);
-    box-shadow: 4px 8px 10px rgb(15, 22, 29);
-}
-#searchIcon{
-    color:rgb(182, 184, 185);
-    text-align:center;
-    filter: drop-shadow(2px 6px 3px #000);
-    width: 40px;
-}
-#searchIconBar{
-    display:flex;
-    justify-content: space-around;    
-    height:100%;
-    width:40%;
-    min-width:350px;
-    background: rgb(15, 20, 26);
-    box-shadow: 4px 8px 10px rgb(15, 22, 29);
-    padding:8px 10px;
-    border-radius:10px; 
-}
-.weather_search{
-    display:flex;
-    justify-content:center;
-    padding-top:50px;
-    width:100%;
-}
-#searchField{
-    border: none;
-    background-color:transparent;
-    outline:none; 
-    width:100%;
-    color:rgb(182, 184, 185);
-    overflow:hidden;
-}
-.container{
-    display:grid;
-    place-items: center;
-    height:600px;
-}
-.containerSign{
-    display:grid;
-    place-items: center;
-    height:650px;
-}
-.cardContaint{
-    margin-top: 50px;
-    display:flex;
-    justify-content: center;
-}
-#wrong{
-    width:400px;
-    height: auto;
-    border-radius: 30px;
-    background: rgb(15, 20, 26);
-    box-shadow: 4px 8px 10px rgb(15, 22, 29);
-    transition:0.2s;
-}
-#card{
-    width:400px;
-    height: auto;
-    border-radius: 30px;
-    background: rgb(15, 20, 26);
-    box-shadow: 4px 8px 10px rgb(15, 22, 29);
-    transition:0.2s;
-}
-#standard{
-    color: #fff;    
-}
-#Logincard{
-    width:330px;
-    padding:40px;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    border-radius: 10px;
-    background: rgb(64, 84, 107);
-    box-shadow: 4px 8px 10px rgb(15, 22, 29);
-    transition:0.2s;
-}
-#signInCard{
-    width:380px;
-    padding:40px;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    border-radius: 10px;
-    background: rgb(64, 84, 107);
-    box-shadow: 4px 8px 10px rgb(15, 22, 29);
-    transition:0.2s;
-}
-#switchLogin{
-    color:rgb(0, 0, 0);
-    font-size:0.9em;
-    font-weight:600;
-    cursor:default;
-}
-#profileCard{
-    border-radius: 10px;
-}
-#card:hover{
-    margin-top: -6px;
-    box-shadow: 8px 15px 16px rgb(15, 22, 29);
-    transition:0.3s;
-}
-#navBar{
-    background: rgb(15, 20, 26);
-}
-.place{
-    margin-left: 7px;
-    font-weight: bold;
-    height:auto;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-.country{
-    font-size:15px;
-}
-.weatherImgError{
-    margin-top:-20px;
-    width :200px;
-    height:200px;
-    margin-bottom: -50px;
-}
-.tempData{
-    padding: 3px;
-    height: 110px;
-    justify-content: center;
-}
-.degree{
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size:40px;
-    font-weight: bold;
-    height:100px;
-    background: rgb(15, 20, 26);
-}
-.img{
-    display:flex; 
-    justify-content:space-around; 
-    font-size: 4rem;
-}
-.dis{
-    text-align:center;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-#time{
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-#error{
-    color: rgb(255, 74, 74);
-    font-weight: 400;
-    font-size: 0.8rem;
-    font-family: 'Montserrat' ;
-}
-.selectedFont{
-    text-align:center;
-    color: rgba(245, 74, 74, 0.87);
-    text-shadow: 2px 3.7px 5px #000;
-    font-family: 'Montserrat' ;
-    margin:0px;
-    padding:0px;
-}
-#time .selectedFont{
-    font-size:0.8rem;
-    font-family: 'Montserrat';
-    width:auto
-}
-.shadows{
-    filter: drop-shadow(0 8px 8px #000);
-    width: 115px;
-    margin-top: -27px;
-}
-.font{
-    color:rgb(121, 126, 136);
-    text-shadow: 2px 3.7px 5px #000;
-    font-family: 'Montserrat' ;
-}
-.defaultTitle{
-    text-align: center;
-    font-size: 1.1rem;
-}
 
-/*-------------------------------------------------* Menu Bar *------------------------------------------------*/
-   
-.manuOut{
-    margin-top:46px;
-}
-#menuItemsOut{
-    display:flex;
-    justify-content:flex-start;
-}
-#menuItems{
-    font-size: 18px;
-    display:flex;
-    color:rgb(121, 126, 136);
-    justify-content:space-around;
-    opacity:0.8;
-}
-#menuItemsOut:hover #menuItems{
-    opacity:1;
-    color:white;
-}
-.default{
-    cursor:default;
-}
-#menuItemsUser{
-    font-size: 24px;
-    font-weight:600;
-    cursor: default;
-    text-transform: capitalize;
-    margin:auto 10px;
-    display:flex;
-    color:rgb(190, 196, 209);
-    justify-content:space-around;
-}
-#menuItemsIcon{
-    width: 20px;    
-    opacity:0.5;
-    color:rgb(176, 181, 192);
-}
-#menuItemsOut:hover #menuItemsIcon{
-    opacity:1;
-    color:white;
-}
-.css-6hp17o-MuiList-root-MuiMenu-list {
-    background: rgb(15, 20, 26);
-}
-#title{
-    color:#fff;
-}
-#CircularProgress{
-    color: var(--theam);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -12px;
-    margin-left: -12px;
-}
-#loginIcon{    
-    font-size: 1em;
-    margin-top: -12px;
-    text-shadow: 3px 3px 7px rgba(0,0,0,0.5);
+.font {
+    color: rgb(121, 126, 136);
+    text-shadow: 2px 3.7px 5px #000;
+    font-family: 'Montserrat';
 }

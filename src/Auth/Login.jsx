@@ -15,6 +15,7 @@ import {
 	Box
 } from '@mui/material';
 import { Visibility, VisibilityOff, LockTwoTone, AccountCircle } from '@mui/icons-material';
+import "./auth.css";
 
 const LoginComponent = ({ URL }, props) => {
 	//-------------------------------* USE-STATE METHODS *-------------------------------//
@@ -38,7 +39,7 @@ const LoginComponent = ({ URL }, props) => {
 	//-------------------------------* LOGIN PART *-------------------------------//
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const data = contactForm.current;
+		let data = contactForm.current;
 
 		try {
 			setLoading(true);
@@ -49,18 +50,20 @@ const LoginComponent = ({ URL }, props) => {
 					password: data.password.value
 				});
 
-				setWorning(response.data);
-
                 if (response.status === 200) {
+					data='';
                     localStorage.setItem('token', response.data.userToken);
-                    history.replace('/home');
+                    history.push('/home');
+					setLoading(false);
                 }
 
                 if (response.status === 400) {
                     setWorning({ status: 'error', msg: response.data.msg })
+					setLoading(false);
                 }
 			} else {
 				setWorning({ status: 'error', msg: 'Please fill all the details..!!!' });
+				setLoading(false);
 			}
 		} catch (err) {
 
@@ -73,10 +76,10 @@ const LoginComponent = ({ URL }, props) => {
 			setWorning({ status: 'error', msg: err.response.data.msg });
 			setLoading(false)
 		}
-		setLoading(false)
-		setTimeout(() => {
-			setWorning('');
-		}, 7000);
+        return()=>{
+            setLoading(false);
+            setTimeout(() => { setWorning('') }, 7000)
+        }
 	};
 
 	return (
@@ -134,6 +137,7 @@ const LoginComponent = ({ URL }, props) => {
 									style={{ color: 'white' }}
 									type={showPassword ? 'text' : 'password'}
 									name='password'
+                                    autoComplete='false'
 									endAdornment={
 										<InputAdornment position="end">
 											<IconButton

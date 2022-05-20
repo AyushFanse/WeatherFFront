@@ -1,110 +1,124 @@
-import { Button, Grid, TextField, Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import {
+    LocationSearching,
+    MailOutline,
+    DeleteOutline,
+    PhoneAndroid,
+    FaceRounded,
+    EditTwoTone
+} from '@mui/icons-material';
+import './user.css';
 
+const ProfileComponent = ({ URL, Key, W_URL }) => {
 
+    //-------------------------------* USE-STATE METHODS *-------------------------------//
 
-const ProfileComponent = ({URL})=>{
-
-//-------------------------------* USE-STATE METHODS *-------------------------------//
-
-    const [user, setUser] = useState([]);
+    const [userData, setUser] = useState([]);
+    const [locator, setLocator] = useState('');
     const localToken = localStorage.getItem('token');
     const decodedToken = jwt.decode(localToken);
+    const LocatorRef = useRef();
     const FatchData = useRef();
     const history = useHistory();
 
-//-------------------------------* USE-EFFECT METHODS *-------------------------------//
+    //-------------------------------* USE-EFFECT METHODS *-------------------------------//
+    useEffect(() => {
 
-    const Fatch = (async()=>{
-        if(decodedToken==null){
+        if (decodedToken === null) {
             history.push('/');
+            return;
+        }
+        if (decodedToken.exp * 1000 <= Date.now()) {
+            localStorage.removeItem('token');
             alert("Session Timeout Please Login Again...");
-        }else{
-                if(decodedToken.exp*1000<=Date.now()){
-                history.push('/');
-                }else{
-                        var response = await axios.get(`${URL}/users/getuser/${decodedToken.user._id}`,
-                        {
-                            headers:{ token:localToken }
-                        })                    
-                
-                setUser(response.data);
-            }
-    }})
+            history.push('/');
+            return;
+        }
+
+    }, [decodedToken, history])
+
+    //-------------------------------* LOCATOR FUNCTIONS *-------------------------------//
+    useEffect(() => {
+        LocatorRef.current();
+    }, [])
+
+    const Locator = (async () => {
+        const response = await axios.get(`${W_URL}?key=${Key}&q=auto:ip`)
+        setLocator(response.data);
+    })
+
+    LocatorRef.current = Locator;
+
+    useEffect(() => { FatchData.current() }, [])
+
+    const Fatch = (async () => {
+        var response = await axios.get(`${URL}/users/getuser/${decodedToken.user._id}`,
+            {
+                headers: { token: localToken }
+            })
+
+        setUser(response.data);
+    })
 
     FatchData.current = Fatch;
 
-    useEffect( () =>{ FatchData.current()}, [])
+    //-------------------------------* DELETE MY ACCOUNT FUNCTIONS *-------------------------------//
+    const DeleteAccount = (async (id) => {
 
-//-------------------------------* DELETE MY ACCOUNT FUNCTIONS *-------------------------------//
-    const DeleteAccount = (async (id)=>{
-
-        await axios.delete(`${URL}users/deleteuser/${id}`)
-        localStorage.removeItem('token');
-        history.push('/');
-        alert('Your Account has been deleted Successfully');
+        if (window.confirm('Are you sure to delete this account?')) {
+            await axios.delete(`${URL}users/deleteuser/${id}`)
+            localStorage.removeItem('token');
+            history.push('/');
+            alert('Your Account has been deleted Successfully');
+        }
     });
 
-return (
-    <Box sx={{ flexGrow: 1}}>
-        <Navbar Page={'Profile'} />
-        <h1 className="ProfileTitle">My Profile</h1>            
-        <Grid sx={{display: 'grid', placeItems: 'center', height:'500px'}}>
-            <Box key={user._id}>
-                <div  id="profileCard" style={{ background:'#c8e4fb',marginTop: '50px',  width:'360px', padding:'30px'}}>
-                    <Grid style={{textAlign: 'center'}}>
-                        <Box component="form" className="default" sx={{ '& .MuiTextField-root': { m:1, width: '13.6ch' }}}>
-                            <TextField
-                                id="standard"
-                                label="First-Name"
-                                size="small"
-                                variant="standard"
-                                value={user.first_name}
-                                disabled
+    return (
+        <Box sx={{ flexGrow: 1 }}>
+            <Navbar Page={'Profile'} />
+            <h1 className="ProfileTitle">My Profile</h1>
+            <Grid sx={{ display: 'grid', placeItems: 'center', height: '500px' }}>
+                <Box>
+                    <div className="userShow">
+                        <div className="userShowTop">
+                            <FaceRounded
+                                className="userShowImg" sx={{ fontSize: '2.5rem' }}
                             />
-                            <TextField
-                                id="standard"
-                                label="Last-Name"
-                                size="small"
-                                variant="standard"
-                                value={user.last_name}
-                                disabled
-                            />
-                        </Box>
-                        <Box component="form" className="default" sx={{'& .MuiTextField-root': { mt: 2, width: '95%' }}}>
-                            <TextField
-                                id="standard"
-                                label="Number"
-                                size="small"
-                                variant="standard"
-                                value={user.number}
-                                disabled
-                            />
-                        </Box>
-                        <Box component="form" className="default" sx={{ '& .MuiTextField-root': { mt: 2, width: '95%' }}}>
-                            <TextField
-                                id="standard"
-                                label="Email"
-                                size="small"
-                                variant="standard"
-                                value={user.email}
-                                disabled
-                            />                                    
-                        </Box>
-                    </Grid>
-                    <Grid sx={{ display: 'flex', justifyContent: 'center'}}>
-                        <Button  id="button" sx={{mt:3}} variant="contained" disableElevation  onClick={()=>{DeleteAccount(user._id)}}>
-                            Delete My Account
-                        </Button>
-                    </Grid>
-                </div>
-            </Box>
-        </Grid>
-    </Box>
+                            <div className="userShowTopTitle">
+                                <span className="userShowUsername">{userData.first_name} {userData.last_name}</span>
+                                <span className="userShowUserTitle">{userData.email}</span>
+                            </div>
+                        </div>
+                        <div className="userShowBottom">
+                            <span className="userShowTitle">Account Details</span>
+                            <div className="userShowInfo">
+                                <PhoneAndroid className="userShowIcon" />
+                                <span className="userShowInfoTitle">{userData.number}</span>
+                            </div>
+                            <div className="userShowInfo">
+                                <MailOutline className="userShowIcon" />
+                                <span className="userShowInfoTitle">{userData.email}</span>
+                            </div>
+                            <div className="userShowInfo">
+                                <LocationSearching className="userShowIcon" />
+                                <span className="userShowInfoTitle">{locator ? locator.location.name : null}</span>
+                            </div>
+                        </div>
+                        <div className='actionButtons'>
+                            <Link to={"/profile/" + userData._id}>
+                                <button className="userAddButton">Edit<EditTwoTone /></button>
+                            </Link>
+                            <button className="userDeleteButton">Delete <DeleteOutline className="userListDelete" onClick={() => DeleteAccount(userData._id)} /> </button>
+                        </div>
+                    </div>
+                </Box>
+            </Grid>
+        </Box>
     );
 }
 

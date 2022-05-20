@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import Navbar from '../Navbar/Navbar';
+import "./home.css";
 
 const Home = ({ W_URL, Key, DateNow }) => {
 
