@@ -10,7 +10,7 @@ const LoginComponent = ({ URL }) => {
 
     //-------------------------------* USE-STATE METHODS *-------------------------------//
 
-	const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [Worning, setWorning] = useState('');
     const [showPassword, setShowPassword] = useState('');
     const contactForm = useRef();
@@ -38,7 +38,7 @@ const LoginComponent = ({ URL }) => {
         try {
             setLoading(true)
             if (data.first_name.value && data.last_name.value && data.email.value && data.number.value && data.password.value) {
-                
+
                 let response = await axios.post(`${URL}/register/registeruser`, {
                     first_name: data.first_name.value,
                     last_name: data.last_name.value,
@@ -46,7 +46,7 @@ const LoginComponent = ({ URL }) => {
                     number: data.number.value,
                     password: data.password.value
                 })
-                
+
                 if (response.status === 201) {
                     history.push('/');
                     alert(response.data.msg);
@@ -59,7 +59,7 @@ const LoginComponent = ({ URL }) => {
 
             } else {
                 setWorning({ status: 'error', msg: 'Please fill all the details..!!!' })
-				setLoading(false);
+                setLoading(false);
             }
         } catch (err) {
 
@@ -73,8 +73,8 @@ const LoginComponent = ({ URL }) => {
             setLoading(false)
         }
 
-        return()=>{
-            data='';
+        return () => {
+            data = '';
             setLoading(false);
             setTimeout(() => { setWorning('') }, 7000)
         }

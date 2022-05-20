@@ -9,7 +9,7 @@ const Error = () => {
             <Navbar Page={'Error'} />
             <Grid container id='ErrorCont'>
                 <img src="https://i.ibb.co/SJdXspD/pngegg-2.png" alt="" />
-            </Grid>            
+            </Grid>
         </>
     );
 }

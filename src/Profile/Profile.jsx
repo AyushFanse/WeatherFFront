@@ -71,7 +71,7 @@ const ProfileComponent = ({ URL, Key, W_URL }) => {
     const DeleteAccount = (async (id) => {
 
         if (window.confirm('Are you sure to delete this account?')) {
-            await axios.delete(`${URL}users/deleteuser/${id}`)
+            await axios.delete(`${URL}/users/deleteuser/${id}`)
             localStorage.removeItem('token');
             history.push('/');
             alert('Your Account has been deleted Successfully');
@@ -113,7 +113,7 @@ const ProfileComponent = ({ URL, Key, W_URL }) => {
                             <Link to={"/profile/" + userData._id}>
                                 <button className="userAddButton">Edit<EditTwoTone /></button>
                             </Link>
-                            <button className="userDeleteButton">Delete <DeleteOutline className="userListDelete" onClick={() => DeleteAccount(userData._id)} /> </button>
+                            <button className="userDeleteButton" onClick={() => DeleteAccount(userData._id)} >Delete <DeleteOutline className="userListDelete" /> </button>
                         </div>
                     </div>
                 </Box>

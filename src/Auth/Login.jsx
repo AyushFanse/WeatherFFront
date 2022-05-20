@@ -19,7 +19,7 @@ import "./auth.css";
 
 const LoginComponent = ({ URL }, props) => {
 	//-------------------------------* USE-STATE METHODS *-------------------------------//
-	
+
 	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState('');
 	const [Worning, setWorning] = useState('');
@@ -50,17 +50,17 @@ const LoginComponent = ({ URL }, props) => {
 					password: data.password.value
 				});
 
-                if (response.status === 200) {
-					data='';
-                    localStorage.setItem('token', response.data.userToken);
-                    history.push('/home');
+				if (response.status === 200) {
+					data = '';
+					localStorage.setItem('token', response.data.userToken);
+					history.push('/home');
 					setLoading(false);
-                }
+				}
 
-                if (response.status === 400) {
-                    setWorning({ status: 'error', msg: response.data.msg })
+				if (response.status === 400) {
+					setWorning({ status: 'error', msg: response.data.msg })
 					setLoading(false);
-                }
+				}
 			} else {
 				setWorning({ status: 'error', msg: 'Please fill all the details..!!!' });
 				setLoading(false);
@@ -76,10 +76,10 @@ const LoginComponent = ({ URL }, props) => {
 			setWorning({ status: 'error', msg: err.response.data.msg });
 			setLoading(false)
 		}
-        return()=>{
-            setLoading(false);
-            setTimeout(() => { setWorning('') }, 7000)
-        }
+		return () => {
+			setLoading(false);
+			setTimeout(() => { setWorning('') }, 7000)
+		}
 	};
 
 	return (
@@ -137,7 +137,7 @@ const LoginComponent = ({ URL }, props) => {
 									style={{ color: 'white' }}
 									type={showPassword ? 'text' : 'password'}
 									name='password'
-                                    autoComplete='false'
+									autoComplete='false'
 									endAdornment={
 										<InputAdornment position="end">
 											<IconButton
