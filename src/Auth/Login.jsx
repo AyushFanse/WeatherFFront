@@ -50,7 +50,7 @@ const LoginComponent = ({ URL }, props) => {
 					password: data.password.value
 				});
 
-				if (response.status === 201) {
+				if (response.status === 200) {
 					data = '';
 					localStorage.setItem('token', response.data.userToken);
 					history.push('/home');
