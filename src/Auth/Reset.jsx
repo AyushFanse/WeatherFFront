@@ -24,6 +24,7 @@ const Reset = ({ URL }) => {
 
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState('');
+    const [showConfirmPassword, setShowConfirmPassword] = useState('');
     const [Worning, setWorning] = useState('');
     const history = useHistory();
     const { token } = useParams();
@@ -39,7 +40,13 @@ const Reset = ({ URL }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
         setShowPassword('');
+        setShowConfirmPassword('');
     };
+
+    const handleClickShowConfirmPassword = (e) => {
+        setShowConfirmPassword(e.currentTarget);
+    };
+
 
     if( Expire.exp*1000<=Date.now()){
         alert("The Link is expired");
@@ -170,16 +177,16 @@ const Reset = ({ URL }) => {
                                     <Input
                                         id="standard-adornment-password"
                                         style={{ color: 'white' }}
-                                        type={showPassword ? 'text' : 'password'}
+                                        type={showConfirmPassword ? 'text' : 'password'}
                                         name='confirm_password'
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
                                                     aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
+                                                    onClick={handleClickShowConfirmPassword}
                                                     onMouseDown={handleMouseDownPassword}
                                                 >
-                                                    {showPassword ? (
+                                                    {showConfirmPassword ? (
                                                         <VisibilityOff id="iconsVisibilityOff" />
                                                     ) : (
                                                         <Visibility id="icons" />
