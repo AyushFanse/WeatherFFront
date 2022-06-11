@@ -122,6 +122,7 @@
 
 .userShowUserTitle {
   font-weight: 300;
+  font-size: 0.8rem;
 }
 
 .userShowBottom {
@@ -149,6 +150,7 @@
 .userShowInfoTitle {
   margin-left: 10px;
   color: white;
+  font-size: 0.8rem;
 }
 
 .userUpdateTitle {
