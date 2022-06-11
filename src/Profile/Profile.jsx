@@ -96,10 +96,18 @@ const ProfileComponent = ({ URL, Key, W_URL }) => {
                         </div>
                         <div className="userShowBottom">
                             <span className="userShowTitle">Account Details</span>
-                            <div className="userShowInfo">
-                                <PhoneAndroid className="userShowIcon" />
-                                <span className="userShowInfoTitle">{userData.number}</span>
-                            </div>
+                            {
+                                userData.number
+                                    ?
+                                    (
+                                        <div className="userShowInfo">
+                                            <PhoneAndroid className="userShowIcon" />
+                                            <span className="userShowInfoTitle">{userData.number}</span>
+                                        </div>
+                                    )
+                                    :
+                                    null
+                            }
                             <div className="userShowInfo">
                                 <MailOutline className="userShowIcon" />
                                 <span className="userShowInfoTitle">{userData.email}</span>
