@@ -40,11 +40,15 @@ const Reset = ({ URL }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
         setShowPassword('');
-        setShowConfirmPassword('');
     };
 
     const handleClickShowConfirmPassword = (e) => {
         setShowConfirmPassword(e.currentTarget);
+    };
+
+    const handleMouseDownConfirmPassword = (event) => {
+        event.preventDefault();
+        setShowConfirmPassword('');
     };
 
 
@@ -184,7 +188,7 @@ const Reset = ({ URL }) => {
                                                 <IconButton
                                                     aria-label="toggle password visibility"
                                                     onClick={handleClickShowConfirmPassword}
-                                                    onMouseDown={handleMouseDownPassword}
+                                                    onMouseDown={handleMouseDownConfirmPassword}
                                                 >
                                                     {showConfirmPassword ? (
                                                         <VisibilityOff id="iconsVisibilityOff" />
