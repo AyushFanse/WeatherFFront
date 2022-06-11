@@ -12,6 +12,7 @@ import Error from "./Error/Error";
 const URL = "https://weather-forecasting-back.herokuapp.com";
 const Key = "08d082b236fd458698d125650210612";
 const W_URL = "https://api.weatherapi.com/v1/current.json";
+const clientId = '666200109799-dq9eu8pisg3iuhibts2oktjhct7i1v9r.apps.googleusercontent.com';
 let DateNow = new Date(Date.now());
 
 function RouteComponent() {
@@ -20,7 +21,7 @@ function RouteComponent() {
       <BrowserRouter>
         <Switch>
           <Route exact path='/'>
-            <Login URL={URL} />
+            <Login URL={URL} clientId={clientId} />
           </Route>
           <Route exact path='/signup'>
             <Signup URL={URL} />

@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
+import { gapi } from 'gapi-script';
 import {
 	Alert,
 	Stack,
@@ -14,10 +16,10 @@ import {
 	InputAdornment,
 	Box
 } from '@mui/material';
-import { Visibility, VisibilityOff, LockTwoTone, AccountCircle } from '@mui/icons-material';
+import { Visibility, VisibilityOff, LockTwoTone, AccountCircle, Google } from '@mui/icons-material';
 import "./auth.css";
 
-const LoginComponent = ({ URL }) => {
+const LoginComponent = ({ URL, clientId }) => {
 	//-------------------------------* USE-STATE METHODS *-------------------------------//
 
 	const [loading, setLoading] = useState(false);
@@ -25,6 +27,17 @@ const LoginComponent = ({ URL }) => {
 	const [Worning, setWorning] = useState('');
 	const history = useHistory();
 	const contactForm = useRef();
+
+	useEffect(() => {
+		const start = () => {
+			gapi.client.init({
+				clientId: clientId,
+				scope: ''
+			})
+		};
+
+		gapi.load('client:auth2', start);
+	})
 
 	//-------------------------------* PASSWORD VISIBILITY *-------------------------------//
 	const handleClickShowPassword = (e) => {
@@ -82,6 +95,46 @@ const LoginComponent = ({ URL }) => {
 		}
 	};
 
+	const handleFailure = () => {
+		setWorning({ status: 'error', msg: 'There are some network problem. Try after sometime' });
+		setTimeout(() => { setWorning('') }, 7000)
+	};
+
+	const handleLogin = async (res) => {
+
+		const g_password = res.tokenId;
+		const userData = res.profileObj;
+
+		try {
+			let response = await axios.post(`${URL}/register/googleregisteruser`, {
+				first_name: userData.givenName,
+				last_name: userData.familyName,
+				email: userData.email,
+				g_password: g_password,
+			});
+
+			if (response.data.status === 'success') {
+				localStorage.setItem('token', response.data.userToken);
+				history.push('/home');
+			}
+		} catch (err) {
+
+			if (!err.response) {
+				setWorning({ status: 'error', msg: "Your Are offline" })
+				setLoading(false)
+				return;
+			}
+			console.log(err.response)
+
+			setWorning({ status: 'warning', msg: "User not allowed to use this feature right now, website is in test mode. Please signup." });
+			setLoading(false)
+		}
+		setLoading(false)
+		setTimeout(() => {
+			setWorning('');
+		}, 7000);
+	}
+
 	return (
 		<Box className="container">
 			<Grid id="Logincard">
@@ -89,9 +142,9 @@ const LoginComponent = ({ URL }) => {
 					<h2 style={{ textAlign: 'center' }} id="heading">
 						<LockTwoTone id="loginIcon" />Login
 					</h2>
-					{Worning.status === 'error' ? (
+					{Worning!== '' ? (
 						<Stack sx={{ width: '100%' }} spacing={1}>
-							<Alert variant="outlined" severity="error">
+							<Alert severity={Worning.status}>
 								{Worning.msg}
 							</Alert>
 						</Stack>
@@ -162,6 +215,18 @@ const LoginComponent = ({ URL }) => {
 							<Button id="button" type="submit" variant="contained" disableElevation>
 								Login
 							</Button>
+							<GoogleLogin
+								className="button"
+								clientId={clientId}
+								buttonText="Google"
+								onSuccess={handleLogin}
+								onFailure={handleFailure}
+								cookiePolicy={'single_host_origin'}
+								render={renderProps => (
+									<Button id="button" variant="contained" onClick={renderProps.onClick} disabled={renderProps.disabled}><Google id="googleIcon" /> Google</Button>
+								  )}
+							>
+							</GoogleLogin>
 							{loading && <CircularProgress size={24} id="CircularProgress" />}
 						</Grid>
 						<Grid sx={{ textAlign: 'end' }}>

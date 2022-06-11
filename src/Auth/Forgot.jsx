@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import {
     Alert,
     Stack,
@@ -21,7 +20,6 @@ const Forgot = ({ URL }) => {
     const [loading, setLoading] = useState(false);
     const [Worning, setWorning] = useState('');
     const [link, setLink] = useState('');
-    const history = useHistory();
     const contactForm = useRef();
 
     //-------------------------------* LOGIN PART *-------------------------------//
