@@ -111,6 +111,7 @@ const LoginComponent = ({ URL }) => {
                                         style={{ color: 'white' }}
                                         label="First Name"
                                         aria-describedby="component-warning-text"
+                                        required
                                     />
                                 </FormControl>
                                 <FormControl sx={{ width: 140, ml: 1 }}>
@@ -124,6 +125,7 @@ const LoginComponent = ({ URL }) => {
                                         style={{ color: 'white' }}
                                         label="Last Name"
                                         aria-describedby="component-warning-text"
+                                        required
                                     />
                                 </FormControl>
                             </Box>
@@ -137,6 +139,7 @@ const LoginComponent = ({ URL }) => {
                                     style={{ color: 'white' }}
                                     label="Email"
                                     aria-describedby="component-warning-text"
+                                    required
                                 />
                             </FormControl>
                             <FormControl sx={{ width: 293, mt: 2 }}>
@@ -149,6 +152,7 @@ const LoginComponent = ({ URL }) => {
                                     style={{ color: 'white' }}
                                     label="Number"
                                     aria-describedby="component-warning-text"
+                                    required
                                 />
                             </FormControl>
                             <FormControl sx={{ '& .MuiTextField-root': { m: 0 }, mt: 2 }}>
@@ -171,8 +175,9 @@ const LoginComponent = ({ URL }) => {
                                             >
                                                 {showPassword ? <VisibilityOff id="iconsVisibilityOff" /> : <Visibility id="icons" />}
                                             </IconButton>
-                                        </InputAdornment>
+                                        </InputAdornment>                                        
                                     }
+                                    required
                                 />
                             </FormControl>
                             <Grid sx={{ textAlign: 'center' }}>
@@ -181,8 +186,8 @@ const LoginComponent = ({ URL }) => {
                                 </Button>
                                 {loading && (<CircularProgress size={50} id='CircularProgress' />)}
                             </Grid>
-                            <Grid sx={{ textAlign: 'center', m: 2, cursor: 'pointer' }}>
-                                <p id="switchLogin">Already have account ? <span id="switch" onClick={() => { history.push('/') }} variant="body2">Login</span></p>
+                            <Grid sx={{ textAlign: 'center', mt: 2 }}>
+                                <span id="switchLogin">Already have account ? <span id="switch" onClick={() => { history.push('/') }} variant="body2">Login</span></span>
                             </Grid>
                         </form>
                     </Grid>

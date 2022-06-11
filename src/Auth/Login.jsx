@@ -17,7 +17,7 @@ import {
 import { Visibility, VisibilityOff, LockTwoTone, AccountCircle } from '@mui/icons-material';
 import "./auth.css";
 
-const LoginComponent = ({ URL }, props) => {
+const LoginComponent = ({ URL }) => {
 	//-------------------------------* USE-STATE METHODS *-------------------------------//
 
 	const [loading, setLoading] = useState(false);
@@ -114,6 +114,7 @@ const LoginComponent = ({ URL }, props) => {
 											<AccountCircle id="icons" />
 										</InputAdornment>
 									}
+                                    required
 								/>
 							</FormControl>
 						</Grid>
@@ -153,6 +154,7 @@ const LoginComponent = ({ URL }, props) => {
 											</IconButton>
 										</InputAdornment>
 									}
+                                    required
 								/>
 							</FormControl>
 						</Grid>
@@ -162,8 +164,21 @@ const LoginComponent = ({ URL }, props) => {
 							</Button>
 							{loading && <CircularProgress size={24} id="CircularProgress" />}
 						</Grid>
-						<Grid sx={{ textAlign: 'center' }}>
-							<p id="switchLogin">
+						<Grid sx={{ textAlign: 'end' }}>
+							<span id="switchLogin" >
+								<span
+									id="forgot"
+									onClick={() => {
+										history.push('/forgotpassword');
+									}}
+									variant="body2"
+								>
+									Forgot Password ?
+								</span>
+							</span>
+						</Grid>
+						<Grid sx={{ textAlign: 'end', mr: '20px' }}>
+							<span id="switchLogin">
 								Don&apos;t have account ?{' '}
 								<span
 									id="switch"
@@ -174,7 +189,7 @@ const LoginComponent = ({ URL }, props) => {
 								>
 									Sign-Up
 								</span>
-							</p>
+							</span>
 						</Grid>
 					</form>
 				</Grid>

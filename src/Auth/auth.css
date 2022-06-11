@@ -101,3 +101,22 @@
     font-weight: 600;
     cursor: default;
 }
+
+#forgot {
+    font-size: 0.9em;
+    margin-right: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+#forgotIcon {
+    font-size: 1.4em;
+    margin-top: -7px;
+    text-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
+}
+
+#resetIcon {
+    font-size: 1.4em;
+    margin-top: -7px;
+    text-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
+}
