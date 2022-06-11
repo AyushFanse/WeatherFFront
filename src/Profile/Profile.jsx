@@ -97,7 +97,7 @@ const ProfileComponent = ({ URL, Key, W_URL }) => {
                         <div className="userShowBottom">
                             <span className="userShowTitle">Account Details</span>
                             {
-                                userData.number
+                                userData.number.length > 0 
                                     ?
                                     (
                                         <div className="userShowInfo">
